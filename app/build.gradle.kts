@@ -1,6 +1,9 @@
+
 plugins {
     id("com.android.application")
+    id("kotlin-kapt")
     id("org.jetbrains.kotlin.android")
+    id ("dagger.hilt.android.plugin")
 }
 
 android {
@@ -43,6 +46,9 @@ android {
 
 dependencies {
     val media3_exoplayer_version = "1.2.0"
+    val room_version = "2.6.0"
+    val paging_version = "3.2.1"
+    val hilt_version = "2.46.1"
 
 
     implementation("androidx.core:core-ktx:1.9.0")
@@ -64,4 +70,38 @@ dependencies {
     implementation ("androidx.media3:media3-exoplayer:$media3_exoplayer_version")
     implementation ("androidx.media3:media3-exoplayer-dash:$media3_exoplayer_version")
     implementation ("androidx.media3:media3-ui:$media3_exoplayer_version")
+
+    //gson
+    implementation("com.google.code.gson:gson:2.8.9")
+
+    //room implementation
+    implementation("androidx.room:room-runtime:$room_version")
+    implementation ("androidx.room:room-ktx:$room_version")
+    annotationProcessor("androidx.room:room-compiler:$room_version")
+    kapt("androidx.room:room-compiler:$room_version")
+
+    // for circle image
+    implementation("de.hdodenhof:circleimageview:3.1.0")
+
+    // Retrofit and okhttp
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation("com.squareup.okhttp3:okhttp:5.0.0-alpha.1")
+    implementation("com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.1")
+
+    //Coroutines
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.7")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2")
+
+    // Coroutine Lifecycle Scopes
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.4.1")
+
+
+    // Glide
+    implementation("com.github.bumptech.glide:glide:4.11.0")
+    implementation("me.relex:circleindicator:2.1.6")
+
+    implementation ("com.google.dagger:hilt-android:$hilt_version")
+    kapt ("com.google.dagger:hilt-android-compiler:$hilt_version")
 }
