@@ -1,7 +1,7 @@
 package com.example.youtube.viewmodel
 
 import androidx.lifecycle.ViewModel
-import com.example.youtube.data.Model.SearchResponse
+import com.example.youtube.data.model.SearchResponse
 import com.example.youtube.data.repository.AppRepo
 import com.example.youtube.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
