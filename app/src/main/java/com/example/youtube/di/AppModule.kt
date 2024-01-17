@@ -1,5 +1,6 @@
 package com.example.youtube.di
 
+import com.example.youtube.data.api.ApiInterface
 import com.example.youtube.network.ApiClient
 import dagger.Module
 import dagger.Provides
@@ -21,9 +22,8 @@ class AppModule {
 
     @Singleton
     @Provides
-    fun provideApiInterface(){
-
-
+    fun provideApiInterface():ApiInterface{
+        return ApiClient.getRetrofit().create(ApiInterface::class.java)
     }
 
 }

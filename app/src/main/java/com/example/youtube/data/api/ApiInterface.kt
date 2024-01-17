@@ -1,5 +1,6 @@
 package com.example.youtube.data.api
 
+import com.example.youtube.data.Model.SearchResponse
 import com.example.youtube.utils.API_KEY
 import com.example.youtube.utils.DEVICE
 import com.example.youtube.utils.ENGINE
