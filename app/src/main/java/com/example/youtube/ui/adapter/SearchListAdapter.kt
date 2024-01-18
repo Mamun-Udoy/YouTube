@@ -1,8 +1,10 @@
 package com.example.youtube.ui.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.youtube.data.model.SearchResponse
 import com.example.youtube.databinding.SingleSearchItemBinding
 
@@ -24,8 +26,14 @@ class SearchListAdapter(private val clickListener: ItemClickListener) :
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
 
         val item = responseResult[position]
-        holder.binding.data
+        holder.binding.data = item
+        Log.d("api_result", "viewHolder: ${responseResult[position]}")
+        Log.d("api_result", "thumbnail: ${item?.thumbnail}")
 
+
+        Glide.with(holder.binding.imgThumbnail.context)
+            .load(item?.thumbnail)
+            .into(holder.binding.imgThumbnail)
 
         holder.binding.imgThumbnail.setOnClickListener {
             if (item != null) {

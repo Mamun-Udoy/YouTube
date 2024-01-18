@@ -12,7 +12,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="330dp">
 
         <ImageView
             android:id="@+id/imgThumbnail"
@@ -65,7 +65,6 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:textSize="14sp"
-            android:text="@{data.date}"
             android:textColor="#79FFFFFF"
             app:layout_constraintStart_toEndOf="@+id/txtChannelName"
             app:layout_constraintTop_toBottomOf="@+id/txtTitle" />
@@ -75,7 +74,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:text="@{data.duration}"
             android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="@+id/imgThumbnail"
             app:layout_constraintEnd_toEndOf="parent" />
