@@ -28,7 +28,7 @@ class SearchListAdapter(private val clickListener: ItemClickListener) :
         val item = responseResult[position]
         holder.binding.data = item
         Log.d("api_result", "viewHolder: ${responseResult[position]}")
-        Log.d("api_result", "thumbnail: ${item?.thumbnail}")
+        Log.d("api_result", "viewHolder: ${responseResult[position]}")
 
 
         Glide.with(holder.binding.imgThumbnail.context)

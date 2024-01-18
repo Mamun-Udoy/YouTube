@@ -60,6 +60,7 @@ class HomeFragment : Fragment(), SearchListAdapter.ItemClickListener {
                 is Resource.Success -> {
                     binding.progressbar.visibility = View.GONE
                     homeVideoPlayerAdapter.responseResult = resource.data.videoResults!!
+                    homeVideoPlayerAdapter.notifyDataSetChanged()
                     Log.d("api_call_data", "fetchFlowData: ${resource.data.videoResults}")
                 }
 
