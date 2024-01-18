@@ -8,12 +8,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.youtube.R
 import com.example.youtube.data.model.SearchResponse
 import com.example.youtube.databinding.FragmentHomeBinding
 import com.example.youtube.ui.adapter.SearchListAdapter
 import com.example.youtube.utils.Resource
 import com.example.youtube.viewmodel.HomeFragViewModel
+import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -71,8 +74,10 @@ class HomeFragment : Fragment(), SearchListAdapter.ItemClickListener {
         }
     }
 
-    override fun onVideoPlayerClicked(item: SearchResponse.VideoResult, position: Int) {
-        TODO("Not yet implemented")
+    override fun onVideoPlayerClicked(item: SearchResponse.VideoResult) {
+        findNavController().navigate(R.id.playerFragment,Bundle().apply {
+            putString("data", Gson().toJson(item))
+        })
     }
 
 

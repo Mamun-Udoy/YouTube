@@ -42,8 +42,7 @@
             android:layout_margin="10dp"
             android:maxLines="2"
             android:text="@{data.title}"
-            android:textColor="@color/white"
-
+            android:textColor="@color/black"
             app:layout_constraintStart_toEndOf="@+id/imgProfile"
             app:layout_constraintTop_toBottomOf="@+id/imgThumbnail" />
 
@@ -55,7 +54,7 @@
             android:maxLines="2"
             android:textSize="14sp"
             android:text="@{data.author}"
-            android:textColor="#79FFFFFF"
+            android:textColor="#86000000"
             app:layout_constraintStart_toEndOf="@+id/imgProfile"
             app:layout_constraintTop_toBottomOf="@+id/txtTitle" />
 
@@ -65,7 +64,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:textSize="14sp"
-            android:textColor="#79FFFFFF"
+            android:text="@{data.date}"
+            android:textColor="#88000000"
             app:layout_constraintStart_toEndOf="@+id/txtChannelName"
             app:layout_constraintTop_toBottomOf="@+id/txtTitle" />
 
@@ -74,6 +74,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
+            android:text="@{data.duration}"
             android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="@+id/imgThumbnail"
             app:layout_constraintEnd_toEndOf="parent" />

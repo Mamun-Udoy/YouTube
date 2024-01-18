@@ -37,7 +37,7 @@ class SearchListAdapter(private val clickListener: ItemClickListener) :
 
         holder.binding.imgThumbnail.setOnClickListener {
             if (item != null) {
-                clickListener.onVideoPlayerClicked(item, position)
+                clickListener.onVideoPlayerClicked(item)
             }
 
         }
@@ -46,7 +46,7 @@ class SearchListAdapter(private val clickListener: ItemClickListener) :
 
     interface ItemClickListener {
 
-        fun onVideoPlayerClicked(item: SearchResponse.VideoResult, position: Int)
+        fun onVideoPlayerClicked(item: SearchResponse.VideoResult)
 
     }
 }

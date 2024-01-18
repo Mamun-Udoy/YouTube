@@ -1,21 +1,47 @@
 package com.example.youtube.ui.fragment
 
+import android.os.Binder
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.youtube.R
+import com.example.youtube.data.model.SearchResponse
+import com.example.youtube.data.model.VideoResult
+import com.example.youtube.databinding.FragmentPlayerBinding
+import com.google.gson.Gson
 
 
 class PlayerFragment : Fragment() {
+
+    private lateinit var binding: FragmentPlayerBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_player, container, false)
+        binding = FragmentPlayerBinding.inflate(inflater)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        getData()
+    }
+
+
+    private fun getData() {
+        val gson = Gson()
+        val data = arguments?.getString("data")
+        val videoResult = gson.fromJson(data, VideoResult::class.java)
+
+        binding.txtTitle.text = videoResult.title.toString()
+        binding.txtChannelName.text = videoResult.author.toString()
+
+
+
     }
 
 
