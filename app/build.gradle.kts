@@ -104,7 +104,6 @@ dependencies {
     kapt ("com.github.bumptech.glide:compiler:$glide_version")
 
 
-
     implementation ("com.google.dagger:hilt-android:$hilt_version")
     kapt ("com.google.dagger:hilt-android-compiler:$hilt_version")
 }

@@ -2,6 +2,7 @@ package com.example.youtube.ui.fragment
 
 import android.os.Binder
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -27,7 +28,6 @@ class PlayerFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         getData()
     }
 
@@ -35,10 +35,11 @@ class PlayerFragment : Fragment() {
     private fun getData() {
         val gson = Gson()
         val data = arguments?.getString("data")
-        val videoResult = gson.fromJson(data, VideoResult::class.java)
+        val videoResult = gson.fromJson(data, SearchResponse.VideoResult::class.java)
 
-        binding.txtTitle.text = videoResult.title.toString()
-        binding.txtChannelName.text = videoResult.author.toString()
+        Log.d("videoResult", "getData: $videoResult")
+        binding.txtTitle.text = videoResult.title
+        binding.txtChannelName.text = videoResult.author
 
 
 
