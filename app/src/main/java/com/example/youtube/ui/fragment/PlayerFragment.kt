@@ -11,13 +11,17 @@ import com.example.youtube.R
 import com.example.youtube.data.model.SearchResponse
 import com.example.youtube.data.model.VideoResult
 import com.example.youtube.databinding.FragmentPlayerBinding
+import com.example.youtube.ui.adapter.PlayerAdapter
 import com.google.gson.Gson
+import dagger.hilt.android.AndroidEntryPoint
 
 
+@AndroidEntryPoint
 class PlayerFragment : Fragment() {
 
     private lateinit var binding: FragmentPlayerBinding
 
+    private val playerAdapter: PlayerAdapter by lazy { PlayerAdapter() }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
