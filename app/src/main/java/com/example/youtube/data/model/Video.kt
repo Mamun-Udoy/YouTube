@@ -3,20 +3,18 @@ package com.example.youtube.data.model
 import com.google.gson.annotations.SerializedName
 
 data class VideoResult(
-    @SerializedName("author")
-    val author: String?,
-    @SerializedName("date")
-    val date: String?,
-    @SerializedName("duration")
-    val duration: String?,
-    @SerializedName("link")
-    val link: String?,
-    @SerializedName("position")
-    val position: Int?,
-    @SerializedName("source")
-    val source: String?,
-    @SerializedName("thumbnail")
-    val thumbnail: String?,
+    @SerializedName("userName")
+    val userName: String,
+    @SerializedName("videoUrl")
+    val videoUrl: String,
     @SerializedName("title")
-    val title: String?
+    val title: String?,
+    @SerializedName("description")
+    val description: String,
+    @SerializedName("like")
+    val like: String,
+    @SerializedName("dislike")
+    val dislike: String,
+    @SerializedName("comment")
+    val comment: String,
 )

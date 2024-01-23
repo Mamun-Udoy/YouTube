@@ -75,7 +75,7 @@ data class SearchResponse(
         @SerializedName("link")
         val link: String?,
         @SerializedName("position")
-        val position: Int?,
+        val position: String,
         @SerializedName("source")
         val source: String?,
         @SerializedName("thumbnail")
