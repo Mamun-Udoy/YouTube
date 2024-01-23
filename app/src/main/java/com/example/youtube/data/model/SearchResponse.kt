@@ -66,21 +66,21 @@ data class SearchResponse(
     )
 
     data class VideoResult(
-        @SerializedName("author")
-        val author: String?,
-        @SerializedName("date")
-        val date: String?,
-        @SerializedName("duration")
-        val duration: String?,
+        @SerializedName("position")
+        val position: Int,
+        @SerializedName("title")
+        val title: String?,
         @SerializedName("link")
         val link: String?,
-        @SerializedName("position")
-        val position: String,
-        @SerializedName("source")
-        val source: String?,
         @SerializedName("thumbnail")
         val thumbnail: String?,
-        @SerializedName("title")
-        val title: String?
+        @SerializedName("date")
+        val date: String?,
+        @SerializedName("source")
+        val source: String?,
+        @SerializedName("author")
+        val author: String?,
+        @SerializedName("duration")
+        val duration: String?
     )
 }

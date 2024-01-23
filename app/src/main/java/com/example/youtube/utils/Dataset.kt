@@ -5,7 +5,7 @@ import com.example.youtube.data.model.VideoResult
 
 object Dataset {
 
-    val videoForPlayerPage = arrayListOf(
+    val videoForSortsPage = arrayListOf(
         VideoResult(
             "@MamunUdoy",
             "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WhatCarCanYouGetForAGrand.mp4",
@@ -42,4 +42,58 @@ object Dataset {
             "1.8k"
         ),
     )
+    val videoForPlayerPage = arrayListOf(
+        SearchResponse.VideoResult(
+            1,
+            "Big Bunny's Tender",
+            "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+            "https://serpapi.com/searches/6524f72c0574f5576c140df1/images/d51a43776fc0f3fde522a7f42294dde37c23614794605aedbce5b35aaefba8c8.jpeg",
+            "1.2k",
+            "2k",
+            "5k",
+            "2:30"
+        ),
+        SearchResponse.VideoResult(
+            2,
+            "Elephants are the largest",
+            "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
+            "https://serpapi.com/searches/6524f72c0574f5576c140df1/images/d51a43776fc0f3fde5b69869fc73bcbba2619a393ec30926627fb30acc32e91c.jpeg",
+            "500",
+            "46",
+            "25",
+            "2:30"
+        ),
+        SearchResponse.VideoResult(
+            3,
+            "A forest blaze in Greece",
+            "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+            "https://serpapi.com/searches/6524f72c0574f5576c140df1/images/d51a43776fc0f3fd2f4146fba4b7b83f51694d9d7695dbed9c7a9b13707f4755.jpeg",
+            "7k",
+            "2k",
+            "839",
+            "2:30"
+        ),
+        SearchResponse.VideoResult(
+            4,
+            "Big Bunny's Tender",
+            "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+            "https://serpapi.com/searches/6524f72c0574f5576c140df1/images/d51a43776fc0f3fd4b26353e9d1b8e6d24b86020609796dc29b1894018f5a6eb.jpeg",
+            "1.2k",
+            "2k",
+            "5k",
+            "2:30"
+        ),
+        SearchResponse.VideoResult(
+            5,
+            "Elephants are the largest",
+            "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
+            "https://serpapi.com/searches/6524f72c0574f5576c140df1/images/d51a43776fc0f3fd6bfb5b4a1b59c5ff06551a06c512eed28bf6291891623d8b.jpeg",
+            "500",
+            "46",
+            "25",
+            "2:30"
+        ),
+
+    )
+
 }

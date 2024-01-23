@@ -7,11 +7,15 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
 import com.example.youtube.R
 import com.example.youtube.data.model.SearchResponse
 import com.example.youtube.data.model.VideoResult
 import com.example.youtube.databinding.FragmentPlayerBinding
+import com.example.youtube.databinding.SingleSearchItemBinding
 import com.example.youtube.ui.adapter.PlayerAdapter
+import com.example.youtube.utils.Dataset
 import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -33,6 +37,16 @@ class PlayerFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         getData()
+        initViews()
+    }
+
+    private fun initViews() {
+        binding.recyclerView.apply {
+            layoutManager = LinearLayoutManager(context)
+            adapter = playerAdapter
+        }
+        playerAdapter.submitList(Dataset.videoForPlayerPage)
+
     }
 
 
@@ -45,6 +59,13 @@ class PlayerFragment : Fragment() {
         binding.txtTitle.text = videoResult.title
         binding.txtChannelName.text = videoResult.author
 
+        val defaultThumbnailResourceId = R.drawable.profile
+//
+//        // Access the ImageView from the correct binding
+//        val thumbnailBinding = SingleSearchItemBinding.bind(binding.root)
+//        Glide.with(this)
+//            .load(defaultThumbnailResourceId)
+//            .into(thumbnailBinding.imgThumbnail)
 
 
     }

@@ -51,6 +51,7 @@ class HomeFragment : Fragment(), SearchListAdapter.ItemClickListener {
             layoutManager = LinearLayoutManager(context)
             adapter = homeVideoPlayerAdapter
         }
+
     }
 
     private suspend fun fetchFlowData() {
