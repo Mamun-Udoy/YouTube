@@ -45,6 +45,7 @@ android {
 }
 
 dependencies {
+    implementation("androidx.media3:media3-exoplayer-hls:1.2.1")
     val media3_exoplayer_version = "1.2.1"
     val room_version = "2.6.0"
     val paging_version = "3.2.1"
