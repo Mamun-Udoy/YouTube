@@ -65,6 +65,38 @@
         app:layout_constraintBottom_toBottomOf="@id/view"
         app:layout_constraintTop_toTopOf="@id/view"
         app:layout_constraintEnd_toEndOf="@id/view"/>
+    
+    <ImageView
+        android:id="@+id/resize"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        app:srcCompat="@drawable/ic_resize"
+        app:layout_constraintEnd_toEndOf="@id/view"
+        app:layout_constraintBottom_toBottomOf="@id/view"
+        android:layout_marginBottom="24dp"
+        android:layout_marginEnd="16dp"/><ImageView
+        android:id="@+id/more"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        app:srcCompat="@drawable/ic_player_more"
+        app:layout_constraintEnd_toEndOf="@id/view"
+       app:layout_constraintTop_toTopOf="@id/view"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="16dp"/>
+
+
+
+    <androidx.appcompat.widget.AppCompatSeekBar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:thumbTint="#00AE9D"
+        android:progressTint="#00AE9D"
+        android:layout_marginBottom="2dp"
+        android:padding="2dp"
+        style="@style/CustomSeekBar"
+        app:layout_constraintStart_toStartOf="@id/view"
+        app:layout_constraintEnd_toEndOf="@id/view"
+        app:layout_constraintBottom_toBottomOf="@id/view"/>
 
 
 
