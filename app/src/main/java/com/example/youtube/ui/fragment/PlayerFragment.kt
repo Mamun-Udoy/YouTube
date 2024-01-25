@@ -8,7 +8,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SeekBar
 import androidx.annotation.OptIn
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.lifecycleScope
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
 import androidx.media3.common.Player.STATE_READY
@@ -20,12 +24,19 @@ import androidx.media3.exoplayer.hls.HlsMediaSource
 import androidx.media3.exoplayer.source.MediaSource
 import androidx.media3.exoplayer.source.ProgressiveMediaSource
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.youtube.R
 import com.example.youtube.data.model.SearchResponse
 import com.example.youtube.databinding.FragmentPlayerBinding
 import com.example.youtube.ui.adapter.PlayerAdapter
 import com.example.youtube.utils.Dataset
+import com.example.youtube.viewmodel.PlayerViewModel
 import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.launch
 
 
 @AndroidEntryPoint
@@ -35,11 +46,31 @@ class PlayerFragment : Fragment() {
 
     private val playerAdapter: PlayerAdapter by lazy { PlayerAdapter() }
 
-    private val mediaUrl = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4"
-//    private val mediaUrlHls = "http://sample.vodobox.net/skate_phantom_flex_4k/skate_phantom_flex_4k.m3u8"
-    private var player: ExoPlayer?= null
-    // Create a data source factory.
-    private val dataSourceFactory: DataSource.Factory = DefaultHttpDataSource.Factory()
+    private val viewModel: PlayerViewModel by viewModels()
+
+    private val coroutineScope = CoroutineScope(Dispatchers.Main)
+
+//    private val mediaUrl = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4"
+////    private val mediaUrlHls = "http://sample.vodobox.net/skate_phantom_flex_4k/skate_phantom_flex_4k.m3u8"
+//    private var player: ExoPlayer?= null
+//    // Create a data source factory.
+//    private val dataSourceFactory: DataSource.Factory = DefaultHttpDataSource.Factory()
+
+
+//    override fun onPause() {
+//        super.onPause()
+//        pause()
+//    }
+//
+//    override fun onResume() {
+//        super.onResume()
+//        play()
+//    }
+//
+//    override fun onDestroy() {
+//        super.onDestroy()
+//        releasePlayer()
+//    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -53,97 +84,138 @@ class PlayerFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         getData()
         initViews()
-        preparePlayer()
-    }
-
-    override fun onPause() {
-        super.onPause()
-        pause()
-    }
-
-    override fun onResume() {
-        super.onResume()
-        play()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        releasePlayer()
-    }
-
-    @OptIn(UnstableApi::class) private fun preparePlayer(){
-        player = context?.let {
-            ExoPlayer.Builder(it)
-                .build()
-                .apply {
-
-//                    val source = if (mediaUrl.contains("mp4"))
-//                        getHlsMediaSource()
-//                    else
-
-
-                     val source=   getProgressiveMediaSource()
-                    setMediaSource(source)
-                    prepare()
-                    play()
-                    addListener(playerListener)
-                    Log.d("peparedPlayer", "preparePlayer: preparePlayer")
-                }
+        lifecycleScope.launch {
+            preparePlayer()
         }
     }
 
+    private fun preparePlayer() {
 
+        viewModel.setMediaItem(Uri.parse("http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4"))
+        binding.videoPlayer.player = viewModel.player
+        binding.videoPlayer.useController = true
 
-    private val playerListener = object: Player.Listener {
-        override fun onPlaybackStateChanged(playbackState: Int) {
-            super.onPlaybackStateChanged(playbackState)
-            when(playbackState){
-                STATE_ENDED -> restartPlayer()
-                STATE_READY -> {
-                    binding.videoPlayer.player = player
-                    play()
-                    Log.d("playerVideo", "onPlaybackStateChanged: player running")
+        val seekBar: SeekBar = binding.videoPlayer.findViewById(R.id.seekBar)
+
+        seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            // this block run when we will shift the seekbar from one position to any position and give the update position
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                if (fromUser) {
+                    val duration = viewModel.player.duration
+                    val newPosition = (progress * duration) / 100
+                    viewModel.player.seekTo(newPosition)
+                    updateSeekBar()
+
                 }
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {
+            }
+
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {
+            }
+
+
+        })
+
+        seekBar.max = 100
+        coroutineScope.launch {
+            while (isActive) {
+                updateSeekBar()
+                delay(1000)
+            }
+        }
+
+
+    }
+
+
+    fun updateSeekBar() {
+        val seekBar: SeekBar = binding.videoPlayer.findViewById(R.id.seekBar)
+        coroutineScope.launch {
+            while (isActive) {
+                val duration = viewModel.player.duration
+                val currentPosition = viewModel.player.currentPosition
+                val progress = if (duration > 0) (currentPosition * 100 / duration).toInt() else 0
+                seekBar.progress = progress
+                delay(1000) // Update every second
             }
         }
     }
 
-    private fun pause(){
-        player?.playWhenReady = false
-    }
 
-    private fun play(){
-        Log.d("readyForPlay", "play: ready to play the content")
-        player?.playWhenReady = true
-    }
-
-    private fun restartPlayer(){
-        player?.seekTo(0)
-        player?.playWhenReady = true
-    }
-
-    private fun releasePlayer(){
-        player?.apply {
-            playWhenReady = false
-            release()
-        }
-        player = null
-    }
-
-
-//    @OptIn(UnstableApi::class) private fun getHlsMediaSource(): MediaSource {
-//        // Create a HLS media source pointing to a playlist uri.
-//        return HlsMediaSource.Factory(dataSourceFactory).
-////        createMediaSource(MediaItem.fromUri(mediaUrl))
-//        createMediaSource(MediaItem.fromUri(mediaUrlHls))
+//    @OptIn(UnstableApi::class) private fun preparePlayer(){
+//        player = context?.let {
+//            ExoPlayer.Builder(it)
+//                .build()
+//                .apply {
+//
+////                    val source = if (mediaUrl.contains("mp4"))
+////                        getHlsMediaSource()
+////                    else
+//
+//
+//                     val source=   getProgressiveMediaSource()
+//                    setMediaSource(source)
+//                    prepare()
+//                    play()
+//                    addListener(playerListener)
+//                    Log.d("peparedPlayer", "preparePlayer: preparePlayer")
+//                }
+//        }
 //    }
-
-    @OptIn(UnstableApi::class) private fun getProgressiveMediaSource(): MediaSource{
-        // Create a Regular media source pointing to a playlist uri.
-        return ProgressiveMediaSource.Factory(dataSourceFactory)
-            .createMediaSource(MediaItem.fromUri(Uri.parse(mediaUrl)))
-    }
-
+//
+//
+//
+//    private val playerListener = object: Player.Listener {
+//        override fun onPlaybackStateChanged(playbackState: Int) {
+//            super.onPlaybackStateChanged(playbackState)
+//            when(playbackState){
+//                STATE_ENDED -> restartPlayer()
+//                STATE_READY -> {
+//                    binding.videoPlayer.player = player
+//                    play()
+//                    Log.d("playerVideo", "onPlaybackStateChanged: player running")
+//                }
+//            }
+//        }
+//    }
+//
+//    private fun pause(){
+//        player?.playWhenReady = false
+//    }
+//
+//    private fun play(){
+//        Log.d("readyForPlay", "play: ready to play the content")
+//        player?.playWhenReady = true
+//    }
+//
+//    private fun restartPlayer(){
+//        player?.seekTo(0)
+//        player?.playWhenReady = true
+//    }
+//
+//    private fun releasePlayer(){
+//        player?.apply {
+//            playWhenReady = false
+//            release()
+//        }
+//        player = null
+//    }
+//
+//
+////    @OptIn(UnstableApi::class) private fun getHlsMediaSource(): MediaSource {
+////        // Create a HLS media source pointing to a playlist uri.
+////        return HlsMediaSource.Factory(dataSourceFactory).
+//////        createMediaSource(MediaItem.fromUri(mediaUrl))
+////        createMediaSource(MediaItem.fromUri(mediaUrlHls))
+////    }
+//
+//    @OptIn(UnstableApi::class) private fun getProgressiveMediaSource(): MediaSource{
+//        // Create a Regular media source pointing to a playlist uri.
+//        return ProgressiveMediaSource.Factory(dataSourceFactory)
+//            .createMediaSource(MediaItem.fromUri(Uri.parse(mediaUrl)))
+//    }
 
 
     private fun initViews() {
@@ -154,6 +226,7 @@ class PlayerFragment : Fragment() {
         playerAdapter.submitList(Dataset.videoForPlayerPage)
 
     }
+
     private fun getData() {
         val gson = Gson()
         val data = arguments?.getString("data")

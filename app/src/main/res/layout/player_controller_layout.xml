@@ -87,6 +87,7 @@
 
 
     <androidx.appcompat.widget.AppCompatSeekBar
+        android:id="@+id/seekBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:thumbTint="#00AE9D"
