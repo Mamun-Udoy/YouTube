@@ -9,6 +9,7 @@ import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.ExoPlayer
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
+import kotlin.math.absoluteValue
 
 @HiltViewModel
 class PlayerViewModel @Inject constructor(
@@ -26,6 +27,12 @@ class PlayerViewModel @Inject constructor(
         player.apply { prepare() }
         videoDuration = player.duration
 
+    }
+
+    fun formatTime(): String {
+        val seconds = videoDuration / 1000
+        val minutes = seconds / 60
+        return String.format("%02d:%02d", minutes.absoluteValue % 60, seconds.absoluteValue % 60)
     }
 
 

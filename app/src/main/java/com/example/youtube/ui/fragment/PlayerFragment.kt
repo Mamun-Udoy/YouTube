@@ -8,7 +8,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.SeekBar
+import android.widget.TextView
 import androidx.annotation.OptIn
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModel
@@ -127,6 +129,14 @@ class PlayerFragment : Fragment() {
         }
 
 
+        val play = binding.videoPlayer.findViewById<ImageView>(R.id.play)
+        val forwardTimeLap = binding.videoPlayer.findViewById<ImageView>(R.id.forward_move)
+        val backwardTimeLap = binding.videoPlayer.findViewById<ImageView>(R.id.back_move)
+        val fullScreenSize = binding.videoPlayer.findViewById<ImageView>(R.id.fullScreenResize)
+        val more = binding.videoPlayer.findViewById<ImageView>(R.id.more)
+        val timeDuration= binding.videoPlayer.findViewById<TextView>(R.id.txtDuration)
+        timeDuration.text = " / ${viewModel.formatTime()}"
+
     }
 
 
@@ -142,6 +152,10 @@ class PlayerFragment : Fragment() {
             }
         }
     }
+
+
+
+
 
 
 //    @OptIn(UnstableApi::class) private fun preparePlayer(){
