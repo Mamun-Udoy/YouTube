@@ -2,6 +2,8 @@ package com.example.youtube.viewmodel
 
 import android.app.Application
 import android.net.Uri
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.media3.common.MediaItem
 import androidx.media3.common.MimeTypes.APPLICATION_MP4
@@ -16,7 +18,10 @@ class PlayerViewModel @Inject constructor(
     val player: ExoPlayer
 ):ViewModel() {
 
-    var videoDuration = 0L
+    private var videoDuration = 0L
+
+    private val _currentPosition = MutableLiveData<Long>()
+    val currentPosition: LiveData<Long> = _currentPosition
     fun setMediaItem(uri:Uri){
 
         val mediaItem = MediaItem.Builder().setUri(uri).setMimeType(APPLICATION_MP4).build()

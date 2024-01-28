@@ -29,8 +29,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.youtube.R
 import com.example.youtube.data.model.SearchResponse
 import com.example.youtube.databinding.FragmentPlayerBinding
+import com.example.youtube.ui.DoubleClickListener
 import com.example.youtube.ui.adapter.PlayerAdapter
 import com.example.youtube.utils.Dataset
+import com.example.youtube.utils.onClick
 import com.example.youtube.viewmodel.PlayerViewModel
 import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
@@ -39,6 +41,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
+import kotlin.math.absoluteValue
 
 
 @AndroidEntryPoint
@@ -79,12 +82,13 @@ class PlayerFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentPlayerBinding.inflate(inflater)
+        getData()
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        getData()
+
         initViews()
         lifecycleScope.launch {
             preparePlayer()
@@ -134,11 +138,49 @@ class PlayerFragment : Fragment() {
         val backwardTimeLap = binding.videoPlayer.findViewById<ImageView>(R.id.back_move)
         val fullScreenSize = binding.videoPlayer.findViewById<ImageView>(R.id.fullScreenResize)
         val more = binding.videoPlayer.findViewById<ImageView>(R.id.more)
-        val timeDuration= binding.videoPlayer.findViewById<TextView>(R.id.txtDuration)
-        timeDuration.text = " / ${viewModel.formatTime()}"
+        val timeDuration = binding.videoPlayer.findViewById<TextView>(R.id.txtDuration)
+        timeDuration.text = buildString {
+            append(" / ")
+            append(viewModel.formatTime())
+        }
+
+        play onClick {
+
+            if (viewModel.player.isPlaying) {
+                viewModel.player.pause()
+                play.setImageResource(R.drawable.ic_pause)
+            } else {
+                viewModel.player.play()
+                play.setImageResource(R.drawable.ic_play)
+            }
+
+        }
+
+        val forwardDoubleClickListener = DoubleClickListener {
+            // Code to execute on double click
+            // This block will be executed when a double click is detected
+            viewModel.player.seekTo(viewModel.player.currentPosition + 30000)
+        }
+        val backwardDoubleClickListener = DoubleClickListener {
+            // Code to execute on double click
+            // This block will be executed when a double click is detected
+            viewModel.player.seekTo(viewModel.player.currentPosition - 30000)
+        }
+
+
+        forwardTimeLap onClick {
+
+            viewModel.player.seekTo(viewModel.player.currentPosition + 5000)
+        }
+//        forwardTimeLap.setOnClickListener(forwardDoubleClickListener)
+
+        backwardTimeLap onClick {
+            viewModel.player.seekTo(viewModel.player.currentPosition - 5000)
+        }
+//        backwardTimeLap.setOnClickListener(backwardDoubleClickListener)
+
 
     }
-
 
     fun updateSeekBar() {
         val seekBar: SeekBar = binding.videoPlayer.findViewById(R.id.seekBar)
@@ -146,16 +188,15 @@ class PlayerFragment : Fragment() {
             while (isActive) {
                 val duration = viewModel.player.duration
                 val currentPosition = viewModel.player.currentPosition
-                val progress = if (duration > 0) (currentPosition * 100 / duration).toInt() else 0
+                val progress =
+                    if (duration > 0) (currentPosition * 100 / duration).toInt() else 0
                 seekBar.progress = progress
+//                val txtCurrentTime = binding.videoPlayer.findViewById<TextView>(R.id.txtCurrentTime)
+//                txtCurrentTime.text = formatTime(currentPosition)
                 delay(1000) // Update every second
             }
         }
     }
-
-
-
-
 
 
 //    @OptIn(UnstableApi::class) private fun preparePlayer(){
@@ -239,6 +280,11 @@ class PlayerFragment : Fragment() {
         }
         playerAdapter.submitList(Dataset.videoForPlayerPage)
 
+        viewModel.currentPosition.observe(viewLifecycleOwner) { currentPosition ->
+            val txtCurrentTime = binding.videoPlayer.findViewById<TextView>(R.id.txtCurrentTime)
+            txtCurrentTime.text = formatTime(currentPosition)
+        }
+
     }
 
     private fun getData() {
@@ -250,6 +296,14 @@ class PlayerFragment : Fragment() {
         binding.txtChannelName.text = videoResult.author
 
     }
+
+    private fun formatTime(currentPosition: Long): String {
+        Log.d("currentTime", "formatTime: check current time $currentPosition")
+        val seconds =currentPosition / 1000
+        val minutes = seconds / 60
+        return String.format("%02d:%02d", minutes.absoluteValue % 60, seconds.absoluteValue % 60)
+    }
+
 
 
 }

@@ -1,5 +1,6 @@
 package com.example.youtube.utils
 
+import android.view.View
 import androidx.navigation.NavController
 
 fun NavController.navigateTo(destinationResId: Int) {
@@ -12,5 +13,11 @@ fun NavController.navigateTo(destinationResId: Int) {
                 navigate(destinationResId)
             }
         }
+    }
+}
+
+infix fun View.onClick(function: (View) -> Unit) {
+    setOnClickListener {
+        function.invoke(it)
     }
 }
