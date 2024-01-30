@@ -10,6 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.youtube.MainActivity
 import com.example.youtube.R
 import com.example.youtube.data.model.SearchResponse
 import com.example.youtube.databinding.FragmentHomeBinding
@@ -76,6 +77,8 @@ class HomeFragment : Fragment(), SearchListAdapter.ItemClickListener {
     }
 
     override fun onVideoPlayerClicked(item: SearchResponse.VideoResult) {
+
+
         findNavController().navigate(R.id.playerFragment,Bundle().apply {
             putString("data", Gson().toJson(item))
         })

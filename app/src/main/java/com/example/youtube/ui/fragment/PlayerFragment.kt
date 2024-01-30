@@ -182,19 +182,33 @@ class PlayerFragment : Fragment() {
 
         fullScreenSize onClick {
             viewModel.toggleFullScreen(requireActivity())
-            val mainActivity = requireActivity() as MainActivity
-
-            viewModel.isFullScreen.observe(viewLifecycleOwner) {it->
-                if (it) {
-                    Log.d("rat", "preparePlayer: true")
-                    mainActivity.setCustomHeaderVisibility(false)
-                } else {
-                    Log.d("rat", "preparePlayer: false")
-                    mainActivity.setCustomHeaderVisibility(true)
-                }
-            }
-
         }
+        val mainActivity = requireActivity() as MainActivity
+        viewModel.isFullScreen.observe(viewLifecycleOwner) { isFullScreen ->
+            isFullScreen?.let { handleFullScreen(it) }
+            if (isFullScreen) {
+                mainActivity.setCustomHeaderVisibility(false)
+            } else {
+                mainActivity.setCustomHeaderVisibility(true)
+            }
+        }
+
+
+                //my code
+//            viewModel.isFullScreen.observe(viewLifecycleOwner) {it->
+//                if (it) {
+//                    Log.d("rat", "preparePlayer: true")
+//                    mainActivity.setCustomHeaderVisibility(false)
+//                } else {
+//                    Log.d("rat", "preparePlayer: false")
+//                    mainActivity.setCustomHeaderVisibility(true)
+//                }
+//            }
+
+            //calvart vai code
+
+
+
 
     }
 
@@ -288,6 +302,20 @@ class PlayerFragment : Fragment() {
 //        return ProgressiveMediaSource.Factory(dataSourceFactory)
 //            .createMediaSource(MediaItem.fromUri(Uri.parse(mediaUrl)))
 //    }
+
+    private fun handleFullScreen(isFullScreen: Boolean) {
+        val layoutParams = if (isFullScreen) {
+            ViewGroup.LayoutParams.MATCH_PARENT to ViewGroup.LayoutParams.MATCH_PARENT
+        } else {
+            ViewGroup.LayoutParams.WRAP_CONTENT to 900
+        }
+
+        // Adjust your Media3 view's layout parameters
+        binding.videoPlayer.layoutParams = binding.videoPlayer.layoutParams.apply {
+            width = layoutParams.first
+            height = layoutParams.second
+        }
+    }
 
 
     private fun initViews() {

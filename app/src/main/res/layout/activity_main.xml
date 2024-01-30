@@ -13,97 +13,8 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
         android:layout_marginVertical="12dp"
-        app:layout_constraintBottom_toTopOf="@+id/line"
+        app:layout_constraintBottom_toTopOf="@+id/nav_host_fragment"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <View
-        android:id="@+id/line"
-        android:layout_width="0dp"
-        android:layout_height="1dp"
-        android:background="#CECECE"
-        app:layout_constraintBottom_toTopOf="@id/chipScrollView"
-        app:layout_constraintEnd_toEndOf="@id/custom_header"
-        app:layout_constraintStart_toStartOf="@id/custom_header"
-        app:layout_constraintTop_toBottomOf="@+id/custom_header" />
-
-    <HorizontalScrollView
-        android:id="@+id/chipScrollView"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:scrollbars="none"
-        app:layout_constraintEnd_toEndOf="@id/line"
-        app:layout_constraintStart_toStartOf="@+id/line"
-        app:layout_constraintTop_toBottomOf="@+id/line">
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <!-- Add your ImageView here -->
-            <ImageView
-                android:id="@+id/yourImageView"
-                android:layout_width="89dp"
-                android:layout_height="match_parent"
-                android:layout_marginEnd="8dp"
-                android:src="@drawable/ic_explore" />
-
-            <com.google.android.material.chip.ChipGroup
-                android:id="@+id/chipGroup"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/chipAll"
-                    style="@style/Widget.MaterialComponents.Chip.Choice"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="All" />
-
-                <!-- Chip for "Mixed" -->
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/chipMixed"
-                    style="@style/Widget.MaterialComponents.Chip.Choice"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Mixed" />
-
-                <!-- Chip for "Music" -->
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/chipMusic"
-                    style="@style/Widget.MaterialComponents.Chip.Choice"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Music" />
-
-                <!-- Chip for "Graphic" -->
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/chipGraphic"
-                    style="@style/Widget.MaterialComponents.Chip.Choice"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Graphic" />
-
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/chipCricket"
-                    style="@style/Widget.MaterialComponents.Chip.Choice"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Cricket" />
-
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/chipFootball"
-                    style="@style/Widget.MaterialComponents.Chip.Choice"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Footabll" />
-
-                <!-- Add more chips as needed -->
-
-            </com.google.android.material.chip.ChipGroup>
-        </LinearLayout>
-    </HorizontalScrollView>
 
 
     <fragment
@@ -116,7 +27,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/chipScrollView"
+        app:layout_constraintTop_toBottomOf="@+id/custom_header"
         app:layout_constraintVertical_bias="0.0"
         app:navGraph="@navigation/bottom_nav_graph" />
 

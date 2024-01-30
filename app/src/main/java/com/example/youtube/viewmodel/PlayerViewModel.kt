@@ -29,8 +29,11 @@ class PlayerViewModel @Inject constructor(
     private val _isFullScreen = MutableLiveData<Boolean>()
     val isFullScreen: LiveData<Boolean> = _isFullScreen
 
-    private var originalHeight = ViewGroup.LayoutParams.MATCH_PARENT
-    private var originalWidth = 256.dpToPx()
+//    private var originalHeight = ViewGroup.LayoutParams.MATCH_PARENT
+//    private var originalWidth = 256.dpToPx()
+//
+    private var originalHeight = 0
+    private var originalWidth = 0
 
     init {
         _isFullScreen.value = false
